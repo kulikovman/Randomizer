@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#6daaff</color>
     <color name="colorPrimaryDark">#808080</color>
-    <color name="colorAccent">#ff5e5e</color>
+    <color name="colorAccent">#ff8282</color>
 
     // Базовые цвета
     <color name="transparent">#00ffffff</color>
@@ -25,5 +25,8 @@
     <color name="blue">#5ebcff</color>
     <color name="violet">#a95eff</color>
     <color name="pink">#ff5efa</color>
+
+    // Дополнительные цвета
+    <color name="red_light">#ff8282</color>
 
 </resources>
