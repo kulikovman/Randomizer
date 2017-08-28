@@ -8,7 +8,7 @@
     tools:context="ru.kulikovman.randomizer.MainActivity">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/number_field"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -29,7 +29,7 @@
         app:layout_constraintVertical_bias="0.18"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/big_button"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="220dp"
         android:layout_height="220dp"
