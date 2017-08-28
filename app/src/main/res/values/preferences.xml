@@ -2,6 +2,6 @@
 <resources>
     <string name="pref_key" translatable="false">ru.kulikovman.randomizer.pref_key</string>
 
-    <string name="number_field" translatable="false">number_field</string>
-    <string name="big_button" translatable="false">big_button</string>
+    <string name="limit" translatable="false">limit</string>
+    <string name="random_result" translatable="false">random_result</string>
 </resources>

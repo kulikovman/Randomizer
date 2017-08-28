@@ -31,14 +31,28 @@ public class MainActivity extends AppCompatActivity {
         // Получаем SharedPreferences
         mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
 
-        // Востанавливаем последние значения лимита и кнопки
-        mLimit = mSharedPref.getInt(getString(R.string.number_field), 10);
-        mRandomResult = mSharedPref.getInt(getString(R.string.big_button), 1);
+        // Востанавливаем последние значения лимита и результата
+        mLimit = mSharedPref.getInt(getString(R.string.limit), 10);
+        mRandomResult = mSharedPref.getInt(getString(R.string.random_result), 1);
 
         mNumberField.setText(String.valueOf(mLimit));
         mBigButton.setText(String.valueOf(mRandomResult));
 
-        Log.d("myLog", "Восстановили значение лимита и кнопки: " + mLimit + " | " + mRandomResult);
+        Log.d("myLog", "Восстановили значения лимита и результата: " + mLimit + "|" + mRandomResult);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Сохраняем значения лимита и результата
+        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPref.edit();
+        editor.putInt(getString(R.string.limit), mLimit);
+        editor.putInt(getString(R.string.random_result), mRandomResult);
+        editor.apply();
+
+        Log.d("myLog", "Сохранили значения лимита и результата: " + mLimit + "|" + mRandomResult);
     }
 
     public void getRandomNumber(View view) {
