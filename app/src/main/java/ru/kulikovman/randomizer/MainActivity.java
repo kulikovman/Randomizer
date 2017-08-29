@@ -2,12 +2,15 @@ package ru.kulikovman.randomizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getRandomNumber(View view) {
+        // Воспроизводим звук короткого щелчка при нажатии
+        //MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.roll_dice);
+        //mediaPlayer.start();
 
+        // Генерируем случайное число в заданном пределе
+        Random random = new Random();
+        mRandomResult = 1 + random.nextInt(mLimit);
+
+        // Устанавливаем полученный результат на кнопку
+        mBigButton.setText(String.valueOf(mRandomResult));
+
+        Log.d("myLog", "Сгенерировали и установили рандомное число: " + mRandomResult);
     }
 }
