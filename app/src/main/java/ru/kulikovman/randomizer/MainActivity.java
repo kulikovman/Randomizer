@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         // Востанавливаем последние значения лимита и результата
         mLimit = mSharedPref.getInt(getString(R.string.limit), 10);
         mRandomResult = mSharedPref.getInt(getString(R.string.random_result), 1);
-
         mNumberField.setText(String.valueOf(mLimit));
         mBigButton.setText(String.valueOf(mRandomResult));
 
