@@ -16,6 +16,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("myLog", "Сохранили id звукового файла");
 
-        // Отключаем возможность вставки в поле случайной информации
+        // Отключаем ActionMode нашего поля лимита
+        // Теперь панель выделить/копировать/вставить не появится
         mLimitField.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -130,9 +132,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myLog", "SoundPool очищен");
     }
 
-    public void getRandomNumber(View view) {
+    public void getRandomNumber(View v) {
         // Обновляем лимит расчета
         updateLimit();
+
+        // Перемещаем курсор в конец поля
+        mLimitField.setSelection(mLimitField.getText().length());
+
+        // Прячем клавиатуру
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
 
         // Воспроизводим звук короткого щелчка при нажатии
         mSoundPool.play(mBigButtonSound, 1, 1, 1, 0, 1);
