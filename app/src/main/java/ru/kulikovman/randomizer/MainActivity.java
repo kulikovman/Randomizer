@@ -154,10 +154,6 @@ public class MainActivity extends AppCompatActivity {
             temp = temp.substring(1);
         }
 
-        if (temp.length() > 3) {
-            temp = temp.substring(0, 3);
-        }
-
         if (temp.length() > 0) {
             mLimit = Integer.parseInt(temp);
         }
