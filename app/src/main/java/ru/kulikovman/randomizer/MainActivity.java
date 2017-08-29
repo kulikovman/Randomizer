@@ -9,7 +9,12 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +24,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences mSharedPref;
-    private EditText mNumberField;
+    private EditText mLimitField;
     private Button mBigButton;
 
     private SoundPool mSoundPool;
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Инициализируем необходимые вью элементы
-        mNumberField = (EditText) findViewById(R.id.number_field);
+        mLimitField = (EditText) findViewById(R.id.limit_field);
         mBigButton = (Button) findViewById(R.id.big_button);
 
         // Получаем SharedPreferences
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         // Востанавливаем последние значения лимита и результата
         mLimit = mSharedPref.getInt(getString(R.string.limit), 10);
         mRandomResult = mSharedPref.getInt(getString(R.string.random_result), 1);
-        mNumberField.setText(String.valueOf(mLimit));
+        mLimitField.setText(String.valueOf(mLimit));
         mBigButton.setText(String.valueOf(mRandomResult));
 
         Log.d("myLog", "Восстановили значения лимита и результата: " + mLimit + "|" + mRandomResult);
@@ -61,6 +66,29 @@ public class MainActivity extends AppCompatActivity {
         mBigButtonSound = mSoundPool.load(this, R.raw.tap_button, 1);
 
         Log.d("myLog", "Сохранили id звукового файла");
+
+        // Отключаем возможность вставки в поле случайной информации
+        mLimitField.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
     }
 
     // Создаем SoundPool для Android API 21 и выше
@@ -103,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getRandomNumber(View view) {
+        // Обновляем лимит расчета
+        updateLimit();
+
         // Воспроизводим звук короткого щелчка при нажатии
         mSoundPool.play(mBigButtonSound, 1, 1, 1, 0, 1);
 
@@ -114,5 +145,25 @@ public class MainActivity extends AppCompatActivity {
         mBigButton.setText(String.valueOf(mRandomResult));
 
         Log.d("myLog", "Сгенерировали рандомное число: " + mRandomResult);
+    }
+
+    private void updateLimit() {
+        String temp = s.toString();
+        //.replaceAll("\\D", "");
+
+        while (temp.startsWith("0")) {
+            temp = temp.substring(1);
+        }
+
+                /*if (temp.length() > 3) {
+                    temp = temp.substring(0, 2);
+                }
+
+                if (temp.length() > 0) {
+                    mLimitField.setText(temp);
+                    mLimit = Integer.parseInt(temp);
+                } else {
+                    mLimitField.setText(String.valueOf(mLimit));
+                }*/
     }
 }
