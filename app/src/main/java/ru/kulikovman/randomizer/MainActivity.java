@@ -2,6 +2,7 @@ package ru.kulikovman.randomizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getRandomNumber(View view) {
         // Воспроизводим звук короткого щелчка при нажатии
-        //MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.roll_dice);
-        //mediaPlayer.start();
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.tap_button);
+        mediaPlayer.start();
 
         // Генерируем случайное число в заданном пределе
         Random random = new Random();
