@@ -148,22 +148,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateLimit() {
-        String temp = s.toString();
-        //.replaceAll("\\D", "");
+        String temp = mLimitField.getText().toString();
 
         while (temp.startsWith("0")) {
             temp = temp.substring(1);
         }
 
-                /*if (temp.length() > 3) {
-                    temp = temp.substring(0, 2);
-                }
+        if (temp.length() > 3) {
+            temp = temp.substring(0, 3);
+        }
 
-                if (temp.length() > 0) {
-                    mLimitField.setText(temp);
-                    mLimit = Integer.parseInt(temp);
-                } else {
-                    mLimitField.setText(String.valueOf(mLimit));
-                }*/
+        if (temp.length() > 0) {
+            mLimit = Integer.parseInt(temp);
+        }
+
+        mLimitField.setText(String.valueOf(mLimit));
     }
 }
