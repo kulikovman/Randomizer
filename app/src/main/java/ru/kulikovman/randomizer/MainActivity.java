@@ -68,29 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("myLog", "Сохранили id звукового файла");
 
-        // Отключаем ActionMode нашего поля лимита
-        // Теперь панель выделить/копировать/вставить не появится
-        mLimitField.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-
-            }
-        });
+        // Перемещаем курсор в конец поля
+        moveCursorToEnd();
     }
 
     // Создаем SoundPool для Android API 21 и выше
@@ -137,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         updateLimit();
 
         // Перемещаем курсор в конец поля
-        mLimitField.setSelection(mLimitField.getText().length());
+        moveCursorToEnd();
 
         // Прячем клавиатуру
         View view = this.getCurrentFocus();
@@ -171,5 +150,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mLimitField.setText(String.valueOf(mLimit));
+    }
+
+    private void moveCursorToEnd() {
+        mLimitField.setSelection(mLimitField.getText().length());
     }
 }
