@@ -1,6 +1,5 @@
 package ru.kulikovman.randomizer;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
@@ -87,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         createSoundPool();
     }
 
+    @SuppressWarnings("deprecation")
     private void createSoundPool() {
         if (mSoundPool == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -123,25 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("myLog", "SoundPool очищен");
     }
-
-    /*// Создаем SoundPool для Android API 21 и выше
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    protected void createNewSoundPool() {
-        AudioAttributes attributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
-
-        mSoundPool = new SoundPool.Builder()
-                .setAudioAttributes(attributes)
-                .build();
-    }
-
-    // Создаем SoundPool для старых версий Android
-    @SuppressWarnings("deprecation")
-    protected void createOldSoundPool() {
-        mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-    }*/
 
     public void getRandomNumber(View v) {
         // Обновляем лимит расчета
