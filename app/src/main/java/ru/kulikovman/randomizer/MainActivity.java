@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("myLog", "Запущен onCreate");
+
         // Инициализируем необходимые вью элементы
         mLimitField = (EditText) findViewById(R.id.limit_field);
         mBigButton = (Button) findViewById(R.id.big_button);
@@ -49,25 +51,80 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("myLog", "Восстановили значения лимита и результата: " + mLimit + "|" + mRandomResult);
 
-        // Создаем SoundPool в зависимости от используемой версии Android
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            createNewSoundPool();
-        } else {
-            createOldSoundPool();
-        }
-
-        Log.d("myLog", "Создали SoundPool");
-
-        // Сохраняем id звукового файла
-        mBigButtonSound = mSoundPool.load(this, R.raw.tap_button, 1);
-
-        Log.d("myLog", "Сохранили id звукового файла");
+        // Создаем SoundPool
+        createSoundPool();
 
         // Перемещаем курсор в конец поля
         moveCursorToEnd();
     }
 
-    // Создаем SoundPool для Android API 21 и выше
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d("myLog", "Запущен onPause");
+
+        // Сохраняем значения лимита и результата
+        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPref.edit();
+        editor.putInt(getString(R.string.limit), mLimit);
+        editor.putInt(getString(R.string.random_result), mRandomResult);
+        editor.apply();
+
+        Log.d("myLog", "Сохранили значения лимита и результата: " + mLimit + "|" + mRandomResult);
+
+        // Очищаем SoundPool
+        clearSoundPool();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d("myLog", "Запущен onResume");
+
+        // Создаем SoundPool
+        createSoundPool();
+    }
+
+    private void createSoundPool() {
+        if (mSoundPool == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Создаем SoundPool для Android API 21 и выше
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
+
+                mSoundPool = new SoundPool.Builder()
+                        .setAudioAttributes(attributes)
+                        .build();
+            } else {
+                // Создаем SoundPool для старых версий Android
+                mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+            }
+
+            Log.d("myLog", "Создали SoundPool");
+
+            // Получаем id звуковых файлов
+            loadIdSounds();
+        }
+    }
+
+    private void loadIdSounds() {
+        mBigButtonSound = mSoundPool.load(this, R.raw.tap_button, 1);
+
+        Log.d("myLog", "Получили id звуковых файлов");
+    }
+
+    private void clearSoundPool() {
+        mSoundPool.release();
+        mSoundPool = null;
+
+        Log.d("myLog", "SoundPool очищен");
+    }
+
+    /*// Создаем SoundPool для Android API 21 и выше
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void createNewSoundPool() {
         AudioAttributes attributes = new AudioAttributes.Builder()
@@ -84,27 +141,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     protected void createOldSoundPool() {
         mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Сохраняем значения лимита и результата
-        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedPref.edit();
-        editor.putInt(getString(R.string.limit), mLimit);
-        editor.putInt(getString(R.string.random_result), mRandomResult);
-        editor.apply();
-
-        Log.d("myLog", "Сохранили значения лимита и результата: " + mLimit + "|" + mRandomResult);
-
-        // Очищаем SoundPool
-        mSoundPool.release();
-        mSoundPool = null;
-
-        Log.d("myLog", "SoundPool очищен");
-    }
+    }*/
 
     public void getRandomNumber(View v) {
         // Обновляем лимит расчета
