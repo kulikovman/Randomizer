@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myLog", "Запущен onCreate");
 
         // Инициализируем необходимые вью элементы
-        mLimitField = (EditText) findViewById(R.id.limit_field);
-        mBigButton = (Button) findViewById(R.id.big_button);
+        mLimitField = findViewById(R.id.limit_field);
+        mBigButton = findViewById(R.id.big_button);
 
         // Получаем SharedPreferences
         mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
@@ -135,7 +135,9 @@ public class MainActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
 
         // Воспроизводим звук короткого щелчка при нажатии
