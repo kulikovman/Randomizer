@@ -170,6 +170,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getRandomNumber(View v) {
+        // Обновление лимитов
+        mStartLimit = Integer.parseInt(mStartLimitField.getText().toString());
+        mEndLimit = Integer.parseInt(mEndLimitField.getText().toString());
+
         // Проверяем инициализацию звука
         if (mSoundPool == null) {
             initSoundPool();
