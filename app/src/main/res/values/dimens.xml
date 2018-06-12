@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Картинки с цифрами -->
+    <dimen name="number_height">120dp</dimen>
+    <dimen name="space_between_numbers">5dp</dimen>
+
+</resources>
