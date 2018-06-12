@@ -2,6 +2,7 @@
 <resources>
     <string name="pref_key" translatable="false">ru.kulikovman.randomizer.pref_key</string>
 
-    <string name="limit" translatable="false">limit</string>
-    <string name="random_result" translatable="false">random_result</string>
+    <string name="start_limit" translatable="false">start_limit</string>
+    <string name="end_limit" translatable="false">end_limit</string>
+    <string name="result" translatable="false">result</string>
 </resources>
