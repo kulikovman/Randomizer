@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Случайные числа</string>
+    <string name="dialog_title">Выбор</string>
+    <string name="dialog_min_message">Минимального значения</string>
+    <string name="dialog_max_message">Максимального значения</string>
+</resources>
