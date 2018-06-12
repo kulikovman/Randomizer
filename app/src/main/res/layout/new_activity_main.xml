@@ -68,19 +68,19 @@
             android:id="@+id/number_1"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/num_3"/>
+            app:srcCompat="@drawable/num_p_3"/>
 
         <ImageView
             android:id="@+id/number_2"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/num_7"/>
+            app:srcCompat="@drawable/num_p_7"/>
 
         <ImageView
             android:id="@+id/number_3"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/num_9"/>
+            app:srcCompat="@drawable/num_p_9"/>
 
     </LinearLayout>
 
