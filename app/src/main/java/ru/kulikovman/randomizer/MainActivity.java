@@ -6,13 +6,15 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import ru.kulikovman.randomizer.NumberPickerDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -182,5 +184,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Переносим результат на экран
         setResultToView();
+    }
+
+    public void setStartLimit(View view) {
+    }
+
+    public void setEndLimit(View view) {
+        DialogFragment numberPickerDialog = new NumberPickerDialog();
+        numberPickerDialog.show(getSupportFragmentManager(), "numberPickerDialog");
     }
 }
