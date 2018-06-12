@@ -1,4 +1,4 @@
-package ru.kulikovman.randomizer;
+package ru.kulikovman.randomizer.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import ru.kulikovman.randomizer.R;
 
 public class MaxPickerDialog extends DialogFragment {
     private TextView mStartLimitField, mEndLimitField;

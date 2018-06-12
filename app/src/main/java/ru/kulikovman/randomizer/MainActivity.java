@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import ru.kulikovman.randomizer.dialogs.MaxPickerDialog;
+
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     
