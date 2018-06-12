@@ -1,3 +1,13 @@
 <resources>
+    <!-- Название -->
     <string name="app_name">Случайные числа</string>
+
+    <!-- Диалоги -->
+    <string name="dialog_title">Выбор</string>
+    <string name="dialog_max_message">Максимального значения</string>
+    <string name="dialog_min_message">Минимального значения</string>
+
+    <!-- Кнопки -->
+    <string name="button_ok">OK</string>
+
 </resources>
