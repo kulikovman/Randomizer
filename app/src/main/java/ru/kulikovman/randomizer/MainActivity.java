@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_activity_main);
 
-        Log.d("myLog", "Запущен onCreate");
+        /*Log.d("myLog", "Запущен onCreate");
 
         // Инициализируем необходимые вью элементы
         mLimitField = findViewById(R.id.limit_field);
@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
         createSoundPool();
 
         // Перемещаем курсор в конец поля
-        moveCursorToEnd();
+        moveCursorToEnd();*/
     }
 
-    @Override
+    /*@Override
     protected void onPause() {
         super.onPause();
 
@@ -169,5 +169,5 @@ public class MainActivity extends AppCompatActivity {
 
     private void moveCursorToEnd() {
         mLimitField.setSelection(mLimitField.getText().length());
-    }
+    }*/
 }
