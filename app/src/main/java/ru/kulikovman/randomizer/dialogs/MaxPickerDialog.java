@@ -21,7 +21,9 @@ import ru.kulikovman.randomizer.R;
 public class MaxPickerDialog extends DialogFragment {
     private TextView mStartLimitField, mEndLimitField;
     private int mStartLimit, mEndLimit;
+    private View mNumberPicker;
 
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,36 +35,23 @@ public class MaxPickerDialog extends DialogFragment {
         mStartLimit = Integer.parseInt(mStartLimitField.getText().toString());
         mEndLimit = Integer.parseInt(mEndLimitField.getText().toString());
 
-        // Создаем массив значений для пикеров
-        ArrayList<Integer> numberList = createListNumber();
-
         // Привязка к диалогу кастомного макета
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        @SuppressLint("InflateParams") View numberPicker = inflater.inflate(R.layout.number_picker, null);
+        mNumberPicker = inflater.inflate(R.layout.number_picker, null);
 
-        // Настраиваем NumberPicker 1
-        final NumberPicker picker1 = numberPicker.findViewById(R.id.picker_1);
-        picker1.setMinValue(0);
-        picker1.setMaxValue(9);
-        picker1.setValue(numberList.get(0));
+        // Массив значений для пикеров
+        ArrayList<Integer> numberList = createListNumber();
 
-        // Настраиваем NumberPicker 2
-        final NumberPicker picker2 = numberPicker.findViewById(R.id.picker_2);
-        picker2.setMinValue(0);
-        picker2.setMaxValue(9);
-        picker2.setValue(numberList.get(1));
-
-        // Настраиваем NumberPicker 3
-        final NumberPicker picker3 = numberPicker.findViewById(R.id.picker_3);
-        picker3.setMinValue(0);
-        picker3.setMaxValue(9);
-        picker3.setValue(numberList.get(2));
+        // Настраиваем пикеры
+        final NumberPicker picker1 = createPicker(R.id.picker_1, numberList.get(0));
+        final NumberPicker picker2 = createPicker(R.id.picker_2, numberList.get(1));
+        final NumberPicker picker3 = createPicker(R.id.picker_3, numberList.get(2));
 
         // Создаем диалог
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialog_title)
                 .setMessage(R.string.dialog_max_message)
-                .setView(numberPicker)
+                .setView(mNumberPicker)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -81,6 +70,15 @@ public class MaxPickerDialog extends DialogFragment {
                 });
 
         return builder.create();
+    }
+
+    private NumberPicker createPicker(int resId, Integer defaultValue) {
+        NumberPicker picker = mNumberPicker.findViewById(resId);
+        picker.setMinValue(0);
+        picker.setMaxValue(9);
+        picker.setValue(defaultValue);
+
+        return picker;
     }
 
     private ArrayList<Integer> createListNumber() {
