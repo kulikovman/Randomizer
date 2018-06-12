@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // Востанавливаем значения лимита и результата
         mStartLimit = mSharedPref.getInt(getString(R.string.start_limit), 1);
         mEndLimit = mSharedPref.getInt(getString(R.string.end_limit), 999);
-        mResult = mSharedPref.getInt(getString(R.string.result), 279);
+        mResult = mSharedPref.getInt(getString(R.string.result), 507);
 
         Log.d("log", "Восстановили значения лимита и результата: " + mStartLimit + " - " + mEndLimit + " | " + mResult);
 
@@ -79,37 +79,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Переносим результат на экран
         for (int i = 0; i < list.size(); i++) {
-            int number = list.get(i);
-
-            if (i == 0) {
-                setImageNumber(mNumber1, number);
-            } else if (i == 1) {
-                setImageNumber(mNumber2, number);
-            } else if (i == 2) {
-                setImageNumber(mNumber3, number);
-            }
+            setImageNumber(i + 1, list.get(i));
         }
-
-
-        /*for (int number : list) {
-
-
-            Log.d("log", String.valueOf(number));
-        }*/
-
-
     }
 
-    private void setImageNumber(ImageView imageView, int number) {
-        // Делаем вью видимым
-        imageView.setVisibility(View.VISIBLE);
+    private void setImageNumber(int viewNumber, int imageNumber) {
+        // Формируем имена вью и картинки для него
+        String viewName = "image_number_" + String.valueOf(viewNumber); // image_number_1
+        String imageName = "num_p_" + String.valueOf(imageNumber); // num_p_7
 
-        // Формируем имя ресурса картинки - num_p_7
-        String numberImage = "num_p_" + String.valueOf(number);
+        // Получаем id вью и картинки
+        int viewId = getResources().getIdentifier(viewName, "id", getPackageName());
+        int imageId = getResources().getIdentifier(imageName, "drawable", getPackageName());
 
-        // Получаем идентификатор и присваиваем картинку
-        int numberImageId = getResources().getIdentifier(numberImage, "drawable", getPackageName());
-        imageView.setImageResource(numberImageId);
+        // Если id вью получен
+        if (viewId != 0) {
+            // Находим вью, загружаем в него картинку и делаем видимым
+            ImageView imageView = findViewById(viewId);
+            imageView.setImageResource(imageId);
+            imageView.setVisibility(View.VISIBLE);
+        }
     }
 
 
