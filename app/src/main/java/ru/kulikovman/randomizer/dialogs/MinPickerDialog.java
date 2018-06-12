@@ -49,7 +49,7 @@ public class MinPickerDialog extends DialogFragment {
         // Создаем диалог
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialog_title)
-                .setMessage(R.string.dialog_max_message)
+                .setMessage(R.string.dialog_min_message)
                 .setView(mNumberPicker)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -62,8 +62,8 @@ public class MinPickerDialog extends DialogFragment {
                         int combinedValue = getCombinedValue(num1, num2, num3);
 
                         // Проверка числа на корректность
-                        if (combinedValue > mStartLimit) {
-                            mEndLimitField.setText(String.valueOf(combinedValue));
+                        if (combinedValue < mEndLimit) {
+                            mStartLimitField.setText(String.valueOf(combinedValue));
                         }
                     }
                 });
@@ -82,7 +82,7 @@ public class MinPickerDialog extends DialogFragment {
 
     private ArrayList<Integer> createListNumber() {
         // Делаем число трехзначным
-        StringBuilder number = new StringBuilder(String.valueOf(mEndLimit));
+        StringBuilder number = new StringBuilder(String.valueOf(mStartLimit));
         while (number.length() < 3) {
             number.insert(0, "0");
         }
