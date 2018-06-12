@@ -58,7 +58,7 @@ public class NumberPickerDialog extends DialogFragment {
         builder.setTitle(R.string.dialog_title)
                 .setMessage(R.string.dialog_max_message)
                 .setView(numberPicker)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int num1 = picker1.getValue();
