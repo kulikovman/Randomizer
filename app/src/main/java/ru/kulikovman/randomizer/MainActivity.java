@@ -2,16 +2,21 @@ package ru.kulikovman.randomizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
@@ -39,32 +44,56 @@ public class MainActivity extends AppCompatActivity {
         mNumber2 = findViewById(R.id.image_number_2);
         mNumber3 = findViewById(R.id.image_number_3);
 
-        // Получаем SharedPreferences
-        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-
         // Востанавливаем значения лимита и результата
+        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
         mStartLimit = mSharedPref.getInt(getString(R.string.start_limit), 1);
         mEndLimit = mSharedPref.getInt(getString(R.string.end_limit), 999);
         mResult = mSharedPref.getInt(getString(R.string.result), 507);
 
-        Log.d("log", "Восстановили значения лимита и результата: " + mStartLimit + " - " + mEndLimit + " | " + mResult);
+        Log.d("log", "Восстановили лимит и результат: " + mStartLimit + " - " + mEndLimit + " | " + mResult);
+
+        // Запускаем SoundPool
+        initSoundPool();
 
         // Выводим значения на экран
         mStartLimitField.setText(String.valueOf(mStartLimit));
         mEndLimitField.setText(String.valueOf(mEndLimit));
-        setRandomNumber();
-
-        // Создаем SoundPool
-        //createSoundPool();
+        setResultToView();
     }
 
-    private void setRandomNumber() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("log", "Запущен onPause");
+
+        // Сохраняем значения лимита и результата
+        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPref.edit();
+        editor.putInt(getString(R.string.start_limit), mStartLimit);
+        editor.putInt(getString(R.string.end_limit), mEndLimit);
+        editor.putInt(getString(R.string.result), mResult);
+        editor.apply();
+
+        Log.d("log", "Сохранили лимит и результат: " + mStartLimit + " - " + mEndLimit + " | " + mResult);
+
+        // Очищаем SoundPool
+        clearSoundPool();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("log", "Запущен onResume");
+
+        // Создаем SoundPool
+        initSoundPool();
+    }
+
+    private void setResultToView() {
         // Сначала скрываем все картинки
         mNumber1.setVisibility(View.GONE);
         mNumber2.setVisibility(View.GONE);
         mNumber3.setVisibility(View.GONE);
-
-        // Потом показываем только нужные картинки
 
         // Формируем массив чисел из которых состоит результат
         ArrayList<Integer> list = new ArrayList<>();
@@ -101,39 +130,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-    /*@Override
-    protected void onPause() {
-        super.onPause();
-
-        Log.d("log", "Запущен onPause");
-
-        // Сохраняем значения лимита и результата
-        mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedPref.edit();
-        editor.putInt(getString(R.string.start_limit), mLimit);
-        editor.putInt(getString(R.string.result), mResult);
-        editor.apply();
-
-        Log.d("log", "Сохранили значения лимита и результата: " + mLimit + "|" + mResult);
-
-        // Очищаем SoundPool
-        clearSoundPool();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.d("log", "Запущен onResume");
-
-        // Создаем SoundPool
-        createSoundPool();
-    }
-
     @SuppressWarnings("deprecation")
-    private void createSoundPool() {
+    private void initSoundPool() {
         if (mSoundPool == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // Создаем SoundPool для Android API 21 и выше
@@ -159,31 +157,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadIdSounds() {
         mBigButtonSound = mSoundPool.load(this, R.raw.tap_button, 1);
-
         Log.d("log", "Получили id звуковых файлов");
     }
 
     private void clearSoundPool() {
         mSoundPool.release();
         mSoundPool = null;
-
         Log.d("log", "SoundPool очищен");
     }
 
     public void getRandomNumber(View v) {
-        // Обновляем лимит расчета
-        updateLimit();
-
-        // Перемещаем курсор в конец поля
-        moveCursorToEnd();
-
-        // Прячем клавиатуру
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
+        // Проверяем инициализацию звука
+        if (mSoundPool == null) {
+            initSoundPool();
         }
 
         // Воспроизводим звук короткого щелчка при нажатии
@@ -191,29 +177,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Генерируем случайное число в заданном пределе
         Random random = new Random();
-        mResult = 1 + random.nextInt(mLimit);
-
-        // Устанавливаем полученный результат на кнопку
-        mBigButton.setText(String.valueOf(mResult));
-
+        mResult = mStartLimit + random.nextInt(mEndLimit - mStartLimit + 1);
         Log.d("log", "Сгенерировали рандомное число: " + mResult);
+
+        // Переносим результат на экран
+        setResultToView();
     }
-
-    private void updateLimit() {
-        String temp = mLimitField.getText().toString();
-
-        while (temp.startsWith("0")) {
-            temp = temp.substring(1);
-        }
-
-        if (temp.length() > 0) {
-            mLimit = Integer.parseInt(temp);
-        }
-
-        mLimitField.setText(String.valueOf(mLimit));
-    }
-
-    private void moveCursorToEnd() {
-        mLimitField.setSelection(mLimitField.getText().length());
-    }*/
 }
