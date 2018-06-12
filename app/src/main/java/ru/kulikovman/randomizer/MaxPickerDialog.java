@@ -13,23 +13,26 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class NumberPickerDialog extends DialogFragment {
+public class MaxPickerDialog extends DialogFragment {
     private TextView mStartLimitField, mEndLimitField;
     private int mStartLimit, mEndLimit;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.d("log", "NumberPickerDialog запущен");
+        Log.d("log", "MaxPickerDialog запущен");
 
         // Получаем поля лимитов и их значения
         mStartLimitField = Objects.requireNonNull(getActivity()).findViewById(R.id.start_limit_field);
         mEndLimitField = Objects.requireNonNull(getActivity()).findViewById(R.id.end_limit_field);
-
         mStartLimit = Integer.parseInt(mStartLimitField.getText().toString());
         mEndLimit = Integer.parseInt(mEndLimitField.getText().toString());
+
+        // Создаем массив значений для пикеров
+        ArrayList<Integer> numberList = createListNumber();
 
         // Привязка к диалогу кастомного макета
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -39,19 +42,19 @@ public class NumberPickerDialog extends DialogFragment {
         final NumberPicker picker1 = numberPicker.findViewById(R.id.picker_1);
         picker1.setMinValue(0);
         picker1.setMaxValue(9);
-        picker1.setWrapSelectorWheel(true);
+        picker1.setValue(numberList.get(0));
 
         // Настраиваем NumberPicker 2
         final NumberPicker picker2 = numberPicker.findViewById(R.id.picker_2);
         picker2.setMinValue(0);
         picker2.setMaxValue(9);
-        picker2.setWrapSelectorWheel(true);
+        picker2.setValue(numberList.get(1));
 
         // Настраиваем NumberPicker 3
         final NumberPicker picker3 = numberPicker.findViewById(R.id.picker_3);
         picker3.setMinValue(0);
         picker3.setMaxValue(9);
-        picker3.setWrapSelectorWheel(true);
+        picker3.setValue(numberList.get(2));
 
         // Создаем диалог
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -76,6 +79,22 @@ public class NumberPickerDialog extends DialogFragment {
                 });
 
         return builder.create();
+    }
+
+    private ArrayList<Integer> createListNumber() {
+        // Делаем число трехзначным
+        StringBuilder number = new StringBuilder(String.valueOf(mEndLimit));
+        while (number.length() < 3) {
+            number.insert(0, "0");
+        }
+
+        // Извлекаем отдельные цифры
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(Integer.parseInt(number.substring(0, 1)));
+        list.add(Integer.parseInt(number.substring(1, 2)));
+        list.add(Integer.parseInt(number.substring(2, 3)));
+
+        return list;
     }
 
     private int getCombinedValue(int num1, int num2, int num3) {

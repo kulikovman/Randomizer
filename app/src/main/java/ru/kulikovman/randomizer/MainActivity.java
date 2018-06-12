@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ru.kulikovman.randomizer.NumberPickerDialog;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -49,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         // Востанавливаем значения лимита и результата
         mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
         mStartLimit = mSharedPref.getInt(getString(R.string.start_limit), 1);
-        mEndLimit = mSharedPref.getInt(getString(R.string.end_limit), 999);
-        mResult = mSharedPref.getInt(getString(R.string.result), 507);
+        mEndLimit = mSharedPref.getInt(getString(R.string.end_limit), 687);
+        mResult = mSharedPref.getInt(getString(R.string.result), 59);
 
         Log.d("log", "Восстановили лимит и результат: " + mStartLimit + " - " + mEndLimit + " | " + mResult);
 
@@ -190,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setEndLimit(View view) {
-        DialogFragment numberPickerDialog = new NumberPickerDialog();
-        numberPickerDialog.show(getSupportFragmentManager(), "numberPickerDialog");
+        DialogFragment maxPickerDialog = new MaxPickerDialog();
+        maxPickerDialog.show(getSupportFragmentManager(), "maxPickerDialog");
     }
 }
