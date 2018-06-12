@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
     
     private SoundPool mSoundPool;
-    private int mBigButtonSound;
+    private int mSoundWhenPressed;
 
     private TextView mStartLimitField, mEndLimitField;
     private ImageView mNumber1, mNumber2, mNumber3;
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         // Востанавливаем значения лимита и результата
         mSharedPref = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
         mStartLimit = mSharedPref.getInt(getString(R.string.start_limit), 1);
-        mEndLimit = mSharedPref.getInt(getString(R.string.end_limit), 687);
-        mResult = mSharedPref.getInt(getString(R.string.result), 59);
+        mEndLimit = mSharedPref.getInt(getString(R.string.end_limit), 999);
+        mResult = mSharedPref.getInt(getString(R.string.result), 125);
 
         Log.d("log", "Восстановили лимит и результат: " + mStartLimit + " - " + mEndLimit + " | " + mResult);
 
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadIdSounds() {
-        mBigButtonSound = mSoundPool.load(this, R.raw.tap_button, 1);
+        mSoundWhenPressed = mSoundPool.load(this, R.raw.tap_button, 1);
         Log.d("log", "Получили id звуковых файлов");
     }
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Воспроизводим звук короткого щелчка при нажатии
-        mSoundPool.play(mBigButtonSound, 1, 1, 1, 0, 1);
+        mSoundPool.play(mSoundWhenPressed, 1, 1, 1, 0, 1);
 
         // Генерируем случайное число в заданном пределе
         Random random = new Random();
