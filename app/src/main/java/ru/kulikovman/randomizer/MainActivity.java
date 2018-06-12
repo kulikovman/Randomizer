@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import ru.kulikovman.randomizer.dialogs.MaxPickerDialog;
+import ru.kulikovman.randomizer.dialogs.MinPickerDialog;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSharedPref;
@@ -187,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setStartLimit(View view) {
+        DialogFragment minPickerDialog = new MinPickerDialog();
+        minPickerDialog.show(getSupportFragmentManager(), "minPickerDialog");
     }
 
     public void setEndLimit(View view) {
